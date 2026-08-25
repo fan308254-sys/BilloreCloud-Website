@@ -1,0 +1,15 @@
+{
+  "settings": {
+    "site_name": "BilloreCloud",
+    "site_logo": "https://i.imgur.com/oWNdFZV.png",
+    "discord_url": "",
+    "panel_url": "",
+    "panel_api_key": "",
+    "panel_type": "pterodactyl"
+  },
+  "categories": [],
+  "products": [],
+  "orders": [],
+  "invoices": [],
+  "services": []
+}
