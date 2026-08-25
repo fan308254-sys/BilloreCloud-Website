@@ -1,0 +1,3 @@
+html { background-attachment: fixed !important; }
+body { background-attachment: fixed !important; background-position:center center !important; background-repeat:no-repeat !important; background-size:cover !important; }
+body::before { background-attachment: fixed !important; background-position:center center !important; background-repeat:no-repeat !important; background-size:cover !important; }
