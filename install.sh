@@ -26,19 +26,26 @@ if (( NODE_MAJOR < 20 )); then
   echo "Node.js 20+ required; found $(node -v)"; exit 1
 fi
 
-mkdir -p "$APP_DIR"
+mkdir -p "$(dirname "$APP_DIR")"
 if [[ -d "$APP_DIR/.git" ]]; then
-  git -C "$APP_DIR" fetch origin
+  git -C "$APP_DIR" fetch origin main
   git -C "$APP_DIR" reset --hard origin/main
 else
-  git clone "$REPO" "$APP_DIR"
+  rm -rf "$APP_DIR"
+  git clone --depth=1 --branch main "$REPO" "$APP_DIR"
 fi
 
 cd "$APP_DIR"
 npm install --omit=dev
 
+# Never overwrite an existing .env. The template is safe to copy and contains no real secrets.
 if [[ ! -f .env ]]; then
-  touch .env
+  if [[ -f .env.example ]]; then
+    cp .env.example .env
+  else
+    touch .env
+  fi
+  echo "Created $APP_DIR/.env from .env.example"
 fi
 
 cat > "/etc/systemd/system/${SERVICE}.service" <<EOF
@@ -64,7 +71,7 @@ systemctl enable "$SERVICE"
 systemctl restart "$SERVICE"
 
 echo
- echo "=========================================="
+echo "=========================================="
 echo " BilloreCloud installation complete"
 echo "=========================================="
 echo "App:     $APP_DIR"
@@ -73,4 +80,4 @@ echo "Status:  systemctl status $SERVICE"
 echo "Logs:    journalctl -u $SERVICE -f"
 echo "Config:  $APP_DIR/.env"
 echo
- echo "Add your secrets to .env before using Discord/payment integrations."
+echo "Edit $APP_DIR/.env and add your real Discord/admin secrets."
