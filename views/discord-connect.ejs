@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('partials/head') %></head>
+<body>
+<%- include('partials/menu') %>
+<main class="auth-wrap" style="padding-top:40px">
+<section class="auth-card" style="max-width:760px">
+<h1>Discord Connect</h1>
+<p>Manage Discord login and bot authentication settings.</p>
+<% if (saved) { %><div class="auth-success">Discord settings saved successfully.</div><% } %>
+<form method="post" action="/admin/discord-connect">
+<label><input type="checkbox" name="discord_enabled" <%= discord.enabled ? 'checked' : '' %>> Enable Discord</label>
+<label for="discord_client_id">Discord Client ID</label>
+<input id="discord_client_id" name="discord_client_id" value="<%= discord.clientId %>" autocomplete="off">
+<label for="discord_client_secret">Discord Client Secret</label>
+<input id="discord_client_secret" type="password" name="discord_client_secret" value="<%= discord.clientSecret %>" autocomplete="new-password">
+<label for="discord_redirect_uri">OAuth Redirect URI</label>
+<input id="discord_redirect_uri" name="discord_redirect_uri" value="<%= discord.redirectUri %>" placeholder="https://your-domain.com/auth/discord/callback">
+<label for="discord_bot_token">Discord Bot Token</label>
+<input id="discord_bot_token" type="password" name="discord_bot_token" value="<%= discord.botToken %>" autocomplete="new-password">
+<label for="discord_guild_id">Discord Server / Guild ID</label>
+<input id="discord_guild_id" name="discord_guild_id" value="<%= discord.guildId %>">
+<button class="bc-btn auth-submit" type="submit">Save Discord Settings</button>
+</form>
+<hr>
+<p><strong>Client login:</strong> after saving a valid OAuth configuration, the Login page uses <code>/auth/discord</code> for Continue with Discord.</p>
+<p><strong>Security:</strong> never put real bot tokens or client secrets in GitHub. They are stored locally in the VPS data file by this feature.</p>
+</section>
+</main>
+</body>
+</html>
