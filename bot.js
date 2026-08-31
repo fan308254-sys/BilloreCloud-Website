@@ -2,11 +2,12 @@ require('dotenv').config();
 const fs=require('fs'); const path=require('path');
 const {Client,GatewayIntentBits,ActivityType}=require('discord.js');
 const discordService=require('./discord-service');
-const token=String(process.env.DISCORD_BOT_TOKEN||'').trim();
 const adminFile=path.join(__dirname,'data','admin-data.json'); const usersFile=path.join(__dirname,'data','users.json');
+function read(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'));}catch(e){return fallback;}}
+const adminData=read(adminFile,{settings:{}}); const adminSettings=adminData.settings||{};
+const token=String(adminSettings.discord_bot_token||process.env.DISCORD_BOT_TOKEN||'').trim();
 if(!token){console.warn('[Discord Bot] DISCORD_BOT_TOKEN is not configured.');process.exit(0);}
 const client=new Client({intents:[GatewayIntentBits.Guilds]});
-function read(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'));}catch(e){return fallback;}}
 function write(file,v){fs.writeFileSync(file,JSON.stringify(v,null,2));}
 function template(t,v){let s=String(t||'');Object.keys(v).forEach(k=>s=s.split('{{'+k+'}}').join(String(v[k]??'')));return s;}
 client.once('ready',async()=>{client.user.setPresence({status:'dnd',activities:[{name:'BilloreCloud Orders',type:ActivityType.Watching}]});console.log(`[Discord Bot] Online as ${client.user.tag} — status: Do Not Disturb`);const r=await discordService.createGuildStructure();if(!r.ok) console.warn('[Discord Bot] Server structure not ready:',r.reason||r.status);});
