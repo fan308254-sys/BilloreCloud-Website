@@ -7,7 +7,6 @@ function formatBilloreCloudTime(value) {
 require('dotenv').config();
 var path = require('path');
 var express = require('express');
-var logger = require('morgan');
 var index = require('./routes/index');
 var admin = require('./routes/admin');
 var discordAuth = require('./discord-auth');
@@ -38,7 +37,8 @@ app.use(express.urlencoded({extended:true}));
 app.use(require('express-session')({secret:process.env.SESSION_SECRET||'billorecloud-change-this-secret',resave:false,saveUninitialized:false,cookie:{httpOnly:true,sameSite:'lax',maxAge:1000*60*60*24}}));
 app.use(function(req,res,next){res.locals.currentUser=req.session.user||null;res.locals.isAdmin=!!req.session.admin;next();});
 app.use('/',discordAuth);
-app.use('/',index); app.use('/admin',admin);
+app.use('/',index);
+app.use('/admin',admin);
 app.use(function(req,res,next){var err=new Error('Not Found');err.status=404;next(err);});
 app.use(function(err,req,res,next){res.status(err.status||500);res.render('error',{status:err.status,message:err.message});});
 module.exports=app;
