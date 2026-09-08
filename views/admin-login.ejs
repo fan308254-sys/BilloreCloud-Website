@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('partials/head') %></head>
+<body>
+<main class="auth-wrap">
+  <section class="auth-card">
+    <div class="auth-logo"><img src="<%= siteSettings.site_logo %>" alt="<%= siteSettings.site_name %>"></div>
+    <h1>Admin Login</h1>
+    <p>Sign in to manage BilloreCloud.</p>
+    <% if (error) { %><div class="auth-error"><%= error %></div><% } %>
+    <form method="post" action="/admin/login">
+      <label for="email">Admin Email</label>
+      <input id="email" type="email" name="email" required autocomplete="username">
+      <label for="password">Password</label>
+      <input id="password" type="password" name="password" required autocomplete="current-password">
+      <button class="bc-btn auth-submit" type="submit">Login</button>
+    </form>
+  </section>
+</main>
+</body>
+</html>
