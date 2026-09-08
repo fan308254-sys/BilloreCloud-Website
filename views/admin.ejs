@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('partials/head') %></head>
+<body>
+<main style="max-width:1200px;margin:0 auto;padding:32px 20px">
+  <header style="display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:28px">
+    <div><h1>BilloreCloud Admin</h1><p>Signed in as <%= admin.email %></p></div>
+    <form method="post" action="/admin/logout"><button class="bc-btn" type="submit">Logout</button></form>
+  </header>
+  <% if (typeof settings !== 'undefined') { %>
+  <section class="auth-card" style="max-width:none;margin-bottom:24px">
+    <h2>Overview</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px">
+      <div><strong><%= stats.orders %></strong><br>Orders</div>
+      <div><strong><%= stats.products %></strong><br>Products</div>
+      <div><strong><%= stats.categories %></strong><br>Categories</div>
+      <div><strong><%= stats.services %></strong><br>Services</div>
+      <div><strong><%= stats.invoices %></strong><br>Invoices</div>
+    </div>
+  </section>
+  <section class="auth-card" style="max-width:none">
+    <h2>Website Settings</h2>
+    <form method="post" action="/admin/settings">
+      <label>Website Name</label><input name="site_name" value="<%= settings.site_name || '' %>">
+      <label>Logo URL</label><input name="site_logo" value="<%= settings.site_logo || '' %>">
+      <label>Discord URL</label><input name="discord_url" value="<%= settings.discord_url || '' %>">
+      <label>Panel URL</label><input name="panel_url" value="<%= settings.panel_url || '' %>">
+      <label>Panel API Key</label><input type="password" name="panel_api_key" value="<%= settings.panel_api_key || '' %>">
+      <label>Panel Type</label><input name="panel_type" value="<%= settings.panel_type || 'pterodactyl' %>">
+      <button class="bc-btn" type="submit">Save Settings</button>
+    </form>
+  </section>
+  <% } %>
+</main>
+</body>
+</html>
