@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('partials/head') %></head>
+<body>
+<main class="auth-wrap">
+  <section class="auth-card">
+    <h1><%= status || 500 %></h1>
+    <p><%= message || 'Something went wrong.' %></p>
+    <a class="bc-btn auth-submit" href="/">Return Home</a>
+  </section>
+</main>
+</body>
+</html>
